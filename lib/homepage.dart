@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:myapp/main.dart';
 import 'package:myapp/players.dart';
-// import 'package:myapp/clubs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -40,8 +41,15 @@ class HomePage extends StatelessWidget {
                       fontSize: 15,
                     ),
                   ),
-                  onPressed: () {
-                    Navigator.pop(context);
+                  onPressed: () async {
+                    SharedPreferences prefs =
+                        await SharedPreferences.getInstance();
+                    prefs.remove('email');
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext ctx) => LoginPage(),
+                        ));
                   },
                 ),
               ),
@@ -82,17 +90,6 @@ class HomePage extends StatelessWidget {
             Players(
               "images/ne.jpg",
               "Neymar da Silva Santos Júnior, known as Neymar, is a Brazilian professional footballer who plays as a forward for Ligue 1 club Paris Saint-Germain and the Brazil national team. He is widely regarded as one of the best players in the world",
-            ),
-            Container(
-              padding: EdgeInsets.only(left: 25, top: 15),
-              child: Text(
-                "Greatest Clubs",
-                style: GoogleFonts.rubik(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w500,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
             ),
           ],
         ),

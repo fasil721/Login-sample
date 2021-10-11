@@ -1,8 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/homepage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() => runApp(LoginPage());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  var email = prefs.getString('email');
+  print(email);
+  runApp(
+    email == null ? LoginPage() : HomePage(),
+  );
+}
 
 class LoginPage extends StatelessWidget {
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
@@ -85,12 +94,15 @@ class LoginPage extends StatelessWidget {
                           fontSize: 15,
                         ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
                         if (formkey.currentState!.validate()) {
-                          Navigator.push(
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.setString('email', 'useremail@gmail.com');
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => HomePage(),
+                              builder: (BuildContext ctx) => HomePage(),
                             ),
                           );
                         }
