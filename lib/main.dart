@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/homepage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var email = prefs.getString('email');
@@ -14,8 +14,8 @@ Future<void> main() async {
 }
 
 class LoginPage extends StatelessWidget {
+  TextEditingController controller = new TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,18 +47,20 @@ class LoginPage extends StatelessWidget {
                       top: 30,
                     ),
                     child: TextFormField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          labelText: 'Username',
-                        ),
-                        validator: (value) {
-                          if (value == "") {
-                            return "Username reqiured";
-                          } else if (value != "f") {
-                            return "Incorrect username!!";
-                          }
-                          //fasil
-                        }),
+                      controller: controller,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Username',
+                      ),
+                      validator: (value) {
+                        if (value == "") {
+                          return "Username reqiured";
+                        } else if (value != "f") {
+                          return "Incorrect username!!";
+                        }
+                        //fasil
+                      },
+                    ),
                   ),
                   Container(
                     padding: EdgeInsets.only(
@@ -98,7 +100,7 @@ class LoginPage extends StatelessWidget {
                         if (formkey.currentState!.validate()) {
                           SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                          prefs.setString('email', 'useremail@gmail.com');
+                          prefs.setString('email', 'username');
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
